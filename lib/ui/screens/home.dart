@@ -1,6 +1,9 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:mds_2022_tp/bloc/cubit/company_cubit_cubit.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../models/address.dart';
 import '../../models/company.dart';
@@ -13,17 +16,9 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
-  //final List<Company> company = [];
-
-  Future<void> test() async {
-    await Future.delayed(Duration(seconds: 2));
-    print('attendu 2 secondes');
-  }
-
-  void didChangeDependencies() async {
-    print("je suis la ");
+  void didChangeDependencies() {
     super.didChangeDependencies();
-    await test();
+    context.read<CompanyCubit>().loadCompanies();
   }
 
   @override
@@ -37,7 +32,6 @@ class _HomeState extends State<Home> {
         return ListView.separated(
           itemCount: company.length,
           itemBuilder: (BuildContext context, int index) {
-            //final Company company = _companies[index];
             return ListTile(
               leading: const Icon(Icons.apartment),
               title: Text(company[index].name),
@@ -52,8 +46,6 @@ class _HomeState extends State<Home> {
       }),
       floatingActionButton: FloatingActionButton(
         onPressed: () async {
-          //final Company? company =
-          //await Navigator.of(context).pushNamed('/addCompany') as Company?;
           Navigator.of(context).pushNamed('/addCompany');
         },
         child: const Icon(Icons.add),

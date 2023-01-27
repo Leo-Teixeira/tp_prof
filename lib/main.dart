@@ -13,6 +13,7 @@ void main() async {
 
   // Instanciation du Cubit
   final CompanyCubit companyCubit = CompanyCubit(connect);
+  
   runApp(BlocProvider<CompanyCubit>(
     create: (_) => companyCubit,
     child: const MyApp(),
